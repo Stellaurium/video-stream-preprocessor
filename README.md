@@ -4,12 +4,31 @@
 
 ## 首次运行（Windows x64）
 
-1. 安装 **Python 3.11 x64**，确认命令 `py -3.11 --version` 可用。
+1. 安装 **Python 3.11 x64**，建议加入PATH。安装入口会实际校验版本与64位架构；即使系统的py启动器登记错误，也不会使用Python 2.x继续安装。
 2. 解压/clone本仓库，运行 **tools/安装依赖.cmd**，创建独立 `.venv` 并安装固定版本依赖。
 3. 将 `ffmpeg.exe` 放入 `bin/`，或安装到系统PATH，详见 [FFmpeg准备](bin/README.md)。
 4. 双击 **启动软件.cmd**。以后直接使用这个入口，首次setup不必重复执行。
 
 本项目独立运行，不要求另一个项目的源码放在旁边。两个应用通过HTTP协作，详见[模块协作接口](docs/模块协作接口.md)。 可独立使用GUI或无界面入口。
+
+## 安装参数与重试
+
+双击 `tools/安装依赖.cmd` 可完成通常安装。命令行/自动化使用：
+
+```powershell
+# 指定已安装的解释器；路径仅为示例，替换为自己的Python位置
+.\tools\安装依赖.cmd -Python "C:\Python311\python.exe" -NoPause
+# 仅检查解释器，不创建环境、不下载依赖
+.\tools\安装依赖.cmd -CheckOnly -NoPause
+# 开发验收，预处理项目同时安装pytest
+.\tools\安装依赖.cmd -Dev -NoPause
+```
+
+也支持 `APP_PYTHON` 环境变量指定解释器。setup失败会返回非零退出码；修正网络或路径后可重复执行，已安装依赖和校验正确的模型会跳过。OCR可用 `-SkipModels`先安装依赖，之后必须运行 `tools/prepare_models.py`准备模型才能识别。
+
+FFmpeg是独立前置依赖：可以使用系统PATH中的已安装版本，或放到bin；setup会明确显示找到的位置，未找到会提示准备方法。它不会从另一个项目复制程序。
+
+移动源码到新位置后，应在新位置重新创建.venv并运行setup；Windows虚拟环境内的命令行入口可能记录旧路径，不应只靠剪切环境来迁移。
 
 ## 文档
 

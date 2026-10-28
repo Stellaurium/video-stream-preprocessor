@@ -4,10 +4,12 @@
 
 | 入口 | 用途 |
 | --- | --- |
-| 安装依赖.cmd | 首次setup：Python 3.11创建.venv并安装固定依赖；OCR项目还会校验/准备模型 |
+| 安装依赖.cmd | 首次setup：实际检测Python 3.11 x64、创建.venv并安装固定依赖；OCR项目还会校验/准备模型 |
 | 诊断启动.cmd | 控制台启动同一个app；可加--help只查看参数 |
 | 运行测试.cmd | 合成图像、临时目录及本机模拟HTTP回归；默认offscreen |
 
 预处理运行测试前可先安装requirements-dev.txt。OCR使用tools/run_tests.py显式释放Qt资源，普通测试不调用外部API或真实OCR模型。摄像头需要另行准备FFmpeg。
 
 实验脚本、真实题目验收、历史代码备份和旧打包产物不属于本仓库。不要为测试强行关闭用户正在运行的窗口。
+
+安装入口由setup.ps1实现；`-Python`可指定解释器，`-CheckOnly -NoPause`只验证选择，`-Dev -NoPause`用于自动化验收。非3.11/非64位解释器在安装前被拒绝。
